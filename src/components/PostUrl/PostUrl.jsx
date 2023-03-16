@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './CreateUrl.css';
+import './PostUrl.css';
 
-const CreateUrl = () => {
+const PostUrl = () => {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
@@ -59,4 +59,4 @@ const CreateUrl = () => {
   );
 };
 
-export default CreateUrl;
+export default PostUrl;
