@@ -1,52 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react'
 import './PostUrl.css'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-function Form() {
-  const [longUrl, setLongUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+const PostUrl = ({ inputValue }) => {
+    const [shorturl, setShorturl] = useState("")
+    const [copied, setCopied] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch("https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ longUrl }),
-      });
-      const data = await response.json();
-      alert('data fetched')
-        console.log(data)
-      setShortUrl(data.data.shortUrl);
-      console.log(shortUrl)
-      console.log(data.data.shorturl)
-    } catch (error) {
-      alert(error.name, error.message)
-      console.error(error);
+    const fetchData = async (longUrl) => {
+        try {
+            setLoading(true)
+            const res = await fetch(`https://short-api-51t8.onrender.com/url/shorten`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ longUrl })
+            })
+            const result = await res.json()
+            console.log("shortUrl", result.data.shortUrl)
+            setShorturl(result.data.shortUrl)
+            setLoading(false)
+        }
+        catch (err) {
+            setError(err)
+        }
     }
-  };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="longUrl">Long URL:</label>
-        <input
-          type="text"
-          id="longUrl"
-          value={longUrl}
-          onChange={(e) => setLongUrl(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-      </form>
-      {shortUrl && (
-        <div>
-          <p>Short URL:</p>
-          <a href={shortUrl}>{shortUrl}</a>
-        </div>
-      )}
-    </div>
-  );
+    useEffect(() => {
+        if (inputValue.length) {
+            fetchData(inputValue)
+        }
+    }, [inputValue])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setCopied(false)
+        }, 1000)
+
+        return () => clearTimeout(timer)
+    }, [copied])
+
+    if (loading) {
+        return <p className='noData' >Loading...</p>
+    }
+
+    if (error) {
+        return <p className='noData' >Something went wrong</p>
+    }
+
+    return (
+        <>
+            {shorturl && (
+                <div className='result'>
+                    <p>{shorturl}</p>
+
+                    <CopyToClipboard
+                        text={shorturl}
+                        onCopy={() => setCopied(true)}
+                    >
+                        <button className={copied ? "copied" : ""}>
+                            <i className="fa fa-clone"></i>Copy
+                        </button>
+                    </CopyToClipboard>
+                </div>
+            )}
+        </>
+    )
 }
 
-export default Form;
+export default PostUrl
