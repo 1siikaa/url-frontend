@@ -8,7 +8,7 @@ function Form() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("https://url-shortner-orcin-ten.vercel.app/url/shorten", {
+      const response = await fetch("https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -16,11 +16,13 @@ function Form() {
         body: JSON.stringify({ longUrl }),
       });
       const data = await response.json();
+      alert('data fetched')
         console.log(data)
       setShortUrl(data.data.shortUrl);
       console.log(shortUrl)
       console.log(data.data.shorturl)
     } catch (error) {
+      alert(error.name, error.message)
       console.error(error);
     }
   };
