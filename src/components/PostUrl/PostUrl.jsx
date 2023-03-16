@@ -19,6 +19,7 @@ const PostUrl = () => {
       });
 
       const result = await res.json();
+      console.log(result)
 
       if (result.status) {
         setShortUrl(result.data.shortUrl);
