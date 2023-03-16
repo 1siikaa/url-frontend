@@ -17,7 +17,7 @@ const PostUrl = () => {
         },
         body: JSON.stringify({ longUrl })
       });
-
+      console.log(res)
       const result = await res.json();
       console.log(result)
 
