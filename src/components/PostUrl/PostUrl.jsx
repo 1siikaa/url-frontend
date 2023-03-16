@@ -11,7 +11,7 @@ const PostUrl = ({ inputValue }) => {
     const fetchData = async (longUrl) => {
         try {
             setLoading(true)
-            const res = await fetch(`https://short-api-51t8.onrender.com/url/shorten`, {
+            const res = await fetch("https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
