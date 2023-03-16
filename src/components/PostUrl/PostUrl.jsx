@@ -1,77 +1,62 @@
-import React, { useEffect, useState } from 'react';
-import './PostUrl.css';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import React, { useState } from 'react';
+import './CreateUrl.css';
 
-const PostUrl = () => {
-  const [inputValue, setInputValue] = useState('');
-  const [shorturl, setShorturl] = useState('');
-  const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+const CreateUrl = () => {
+  const [longUrl, setLongUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const [error, setError] = useState("");
 
-  const fetchData = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      setLoading(true);
-      const res = await fetch(`https://short-api-51t8.onrender.com/url/shorten`, {
-        method: 'POST',
+      const res = await fetch('https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten', {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ longUrl: inputValue })
+        body: JSON.stringify({ longUrl })
       });
+
       const result = await res.json();
-      console.log('shortUrl', result.data.shortUrl);
-      setShorturl(result.data.shortUrl);
-      setLoading(false);
+
+      if (result.status) {
+        setShortUrl(result.data.shortUrl);
+        setError("");
+      } else {
+        setShortUrl("");
+        setError(result.message);
+      }
+
     } catch (err) {
-      setError(err);
+      console.log(err);
+      setError("Something went wrong. Please try again later.");
     }
-  };
-
-  useEffect(() => {
-    if (inputValue.length) {
-      fetchData();
-    }
-  }, [inputValue]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCopied(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [copied]);
-
-  if (loading) {
-    return <p className='noData'>Loading...</p>;
-  }
-
-  if (error) {
-    return <p className='noData'>Something went wrong</p>;
   }
 
   return (
-    <div className='link-result-container'>
-      <input
-        type='text'
-        value={inputValue}
-        placeholder='Paste long URL and shorten it'
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      {shorturl && (
-        <div className='result'>
-          <p>{shorturl}</p>
+    <div className="container">
+      <h1>Shorten a URL</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter a long URL"
+          value={longUrl}
+          onChange={(e) => setLongUrl(e.target.value)}
+          required
+        />
+        <button type="submit">Shorten</button>
+      </form>
 
-          <CopyToClipboard text={shorturl} onCopy={() => setCopied(true)}>
-            <button className={copied ? 'copied' : ''}>
-              <i className='fa fa-clone'></i>Copy
-            </button>
-          </CopyToClipboard>
+      {error && <p className="error">{error}</p>}
+      {shortUrl && (
+        <div className="result">
+          <p>Short URL:</p>
+          <a href={shortUrl} target="_blank" rel="noopener noreferrer">{shortUrl}</a>
         </div>
       )}
     </div>
   );
 };
 
-export default PostUrl;
-
+export default CreateUrl;
