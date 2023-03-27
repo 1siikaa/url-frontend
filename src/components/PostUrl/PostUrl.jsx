@@ -7,36 +7,36 @@ const PostUrl = () => {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await fetch('https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten', {
-        mode: "cors",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ longUrl : longUrl.longUrl })
-      });
-      console.log("trying..")
-      console.log(res)
-      const result = await res.json();
-      console.log(result)
+  try {
+    const res = await fetch('https://url-shortner-7jc3.vercel.app/api/url/shorten', {
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ longUrl: longUrl.longUrl })
+    });
+    console.log("trying..")
+    console.log(res)
+    const result = await res.json();
+    console.log(result)
 
-      if (result.success) {
-        setShortUrl(result.data.shortUrl);
-        setError("");
-      } else {
-        setShortUrl("");
-        setError(result.message);
-      }
-
-    } catch (err) {
-      console.log(err);
-      setError("Something went wrong. Please try again later.");
+    if (result.success) {
+      setShortUrl(result.data.shortUrl);
+      setError("");
+    } else {
+      setShortUrl("");
+      setError(result.message);
     }
+
+  } catch (err) {
+    console.log(err);
+    setError("Something went wrong. Please try again later.");
   }
-  
+}
+
   const onChange = (e) => {
         setLongUrl({ ...longUrl, [e.target.name]: e.target.value })
       }
