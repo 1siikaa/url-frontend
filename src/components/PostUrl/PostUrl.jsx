@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './PostUrl.css';
 
 const PostUrl = () => {
-  const [longUrl, setLongUrl] = useState(longUrl : "");
+  const [longUrl, setLongUrl] = useState({longUrl : ""});
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
 
