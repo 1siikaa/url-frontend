@@ -11,13 +11,14 @@ const PostUrl = () => {
 
     try {
       const res = await fetch('https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten', {
-        
+        mode: "no-cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ longUrl })
       });
+      console.log(body)
       console.log(res)
       const result = await res.json();
       console.log(result)
