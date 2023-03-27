@@ -11,7 +11,7 @@ const PostUrl = () => {
 
     try {
       const res = await fetch('https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten', {
-        mode: "no-cors",
+        mode: "cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json"
