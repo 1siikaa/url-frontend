@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './PostUrl.css';
 
 const PostUrl = () => {
-  const [longUrl, setLongUrl] = useState("");
+  const [longUrl, setLongUrl] = useState(longUrl : "");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
 
@@ -16,14 +16,14 @@ const PostUrl = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ longUrl })
+        body: JSON.stringify({ longUrl : longUrl.longUrl })
       });
       console.log("trying..")
       console.log(res)
       const result = await res.json();
       console.log(result)
 
-      if (result.status) {
+      if (result.success) {
         setShortUrl(result.data.shortUrl);
         setError("");
       } else {
@@ -36,6 +36,10 @@ const PostUrl = () => {
       setError("Something went wrong. Please try again later.");
     }
   }
+  
+  const onChange = (e) => {
+        setLongUrl({ ...longUrl, [e.target.longUrl]: e.target.value })
+      }
 
   return (
     <div className="container">
@@ -44,8 +48,8 @@ const PostUrl = () => {
         <input
           type="text"
           placeholder="Enter a long URL"
-          value={longUrl}
-          onChange={(e) => setLongUrl(e.target.value)}
+          value={longUrl.longUrl}
+          onChange={onChange}
           required
         />
         <button type="submit">Shorten</button>
