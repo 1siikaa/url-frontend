@@ -10,7 +10,7 @@ const PostUrl = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://vercel.com/1siikaa/url-shortner-7jc3/url/shorten', {
+      const res = await fetch('https://vercel.com/1siikaa/url-shortner-7jc3/url/shorten', {
         mode : "no-cors",
         method: "POST",
         headers: {
