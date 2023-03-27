@@ -38,7 +38,7 @@ const PostUrl = () => {
   }
   
   const onChange = (e) => {
-        setLongUrl({ ...longUrl, [e.target.longUrl]: e.target.value })
+        setLongUrl({ ...longUrl, [e.target.name]: e.target.value })
       }
 
   return (
